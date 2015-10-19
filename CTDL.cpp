@@ -159,17 +159,29 @@ float DoanhThu(char tentp[],TP *tp)
 void xoaDL(TP *tp,char tendl[],char tentp[])
 {
     TP *p1 = tp;
+	DL *p2 = NULL,*p3=NULL;
 	if(MemberTP(tentp,tp))
 	{
         while(p1!=NULL && strcmp(p1->tenTP,tentp)!= 0)
 		{
 			p1=p1->tptiep;
 		}
+		 if(p1!= NULL)
+		 {
+            p2 = p1->troDL;
+            while(p2 != NULL && strcmp(p2->tenDL,tendl)!=0)
+			{
+				p3 = p2;
+				p2 = p2->tiep;
+			}
+			p3->tiep = p2->tiep;
+			delete p2;
+		 }
 	}
 }
 int main()
 {
-	char str[100],sdt[11];
+	char str[100],sdt[11],tendl[100];
 	int dt;
 	TP *tp = NULL,*s=NULL;
 	DL *dl = NULL;
@@ -202,8 +214,12 @@ int main()
 	output(tp,dl);
 	fflush(stdin);
 	gets(str);
+	fflush(stdin);
+	gets(tendl);
+	xoaDL(tp,tendl,str);
+	output(tp,dl);
 
-	cout<<DoanhThu(str,tp);
+//	cout<<DoanhThu(str,tp);
 
 	getch();
 }
