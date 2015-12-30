@@ -10,6 +10,14 @@ class NhanVien{
 		int sdt;
 	public:
         NhanVien *next;
+        NhanVien(){
+            manv = new char[11];
+			tennv = new char[50];
+			strcpy(this->manv,"");
+			strcpy(this->tennv,"");
+			this->sdt = 0;
+			this->next = NULL;
+        }
 		NhanVien(char mnv[],char tnv[],int sdt){
 			manv = new char[11];
 			tennv = new char[50];
@@ -78,10 +86,32 @@ class DanhBa
 				p=p->next;
 			}
 		}
+		void SapXep(){
+			
+			NhanVien *p,*q;
+			for(p = this->first;p!=NULL;p=p->next)
+			{
+				for(q = p->next;q!=NULL;q=q->next)
+				{
+					
+					if(strcmpi(p->getManv(),q->getManv())>0)
+					{
+						NhanVien tam,*temp;
+						temp = p->next;
+						p->next = q->next;
+						q->next = temp;
+						tam = *p;
+						*p = *q;
+						*q = tam;
+					}
+				}
+			}
+		}
 };
 int main(){
 	DanhBa db;
 	db.TaoDanhBa();
+	db.SapXep();
 	db.inDanhBa();
 	getch();
 }
